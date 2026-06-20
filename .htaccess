@@ -1,0 +1,81 @@
+# VK Tent Services — Root .htaccess
+# Samastam Technologies Private Limited
+
+Options -Indexes
+ServerSignature Off
+
+# ── Remove PHP version fingerprint ────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header unset X-Powered-By
+  Header always unset X-Powered-By
+</IfModule>
+
+# ── HTTPS redirect (enable on production) ────────────────────────────────────
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── HSTS (enable on production after HTTPS redirect is active) ────────────────
+# Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# ── Protect internal directories via rewrite ─────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^includes/.*$ - [F,L]
+  RewriteRule ^database/.*$ - [F,L]
+</IfModule>
+
+# ── Block sensitive file types from direct HTTP access ────────────────────────
+<FilesMatch "\.(env|example|sql|log|bak|tmp|sh|bash|md|json|lock|ini|cfg|conf|dist|orig|swp|swo)$">
+  Order Allow,Deny
+  Deny from All
+</FilesMatch>
+
+# ── Block hidden files (.env, .git, .htpasswd, etc.) ─────────────────────────
+<FilesMatch "^\.">
+  Order Allow,Deny
+  Deny from All
+</FilesMatch>
+
+# ── Block setup.php after first-run (rename or delete it post-setup) ─────────
+# Uncomment the line below once setup is complete:
+# <Files "setup.php">
+#   Order Allow,Deny
+#   Deny from All
+# </Files>
+
+# ── Security headers ──────────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options        "nosniff"
+  Header always set X-Frame-Options               "SAMEORIGIN"
+  Header always set X-XSS-Protection             "1; mode=block"
+  Header always set Referrer-Policy               "strict-origin-when-cross-origin"
+  Header always set X-Permitted-Cross-Domain-Policies "none"
+  Header always set Permissions-Policy            "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Content-Security-Policy       "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none';"
+</IfModule>
+
+# ── Deny direct PHP execution in uploads ─────────────────────────────────────
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phar)$">
+  <If "%{REQUEST_URI} =~ m|^/uploads/|">
+    Order Deny,Allow
+    Deny from All
+  </If>
+</FilesMatch>
+
+# ── Cache static assets ───────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg        "access plus 1 year"
+  ExpiresByType image/png         "access plus 1 year"
+  ExpiresByType image/webp        "access plus 1 year"
+  ExpiresByType image/gif         "access plus 1 year"
+  ExpiresByType image/svg+xml     "access plus 1 year"
+  ExpiresByType text/css          "access plus 6 months"
+  ExpiresByType application/javascript "access plus 6 months"
+</IfModule>
+
+# ── Compress responses ────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json text/xml image/svg+xml
+</IfModule>

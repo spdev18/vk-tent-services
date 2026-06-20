@@ -1,0 +1,132 @@
+/* VK Tent Services — Custom Styles
+   Samastam Technologies Private Limited */
+
+/* ── Fonts ─────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ── VK Loader ──────────────────────────────────────────────────────────────── */
+#vk-loader {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+#vk-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+.vk-logo {
+  animation: vk-pulse 1.4s ease-in-out infinite;
+}
+.loader-fill {
+  animation: loader-slide 1.6s ease-in-out infinite;
+}
+@keyframes vk-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.06); opacity: 0.85; }
+}
+@keyframes loader-slide {
+  0%   { width: 0%; margin-left: 0%; }
+  50%  { width: 100%; margin-left: 0%; }
+  100% { width: 0%; margin-left: 100%; }
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+#site-header {
+  background: transparent;
+}
+#site-header.scrolled {
+  background: rgba(14, 27, 44, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 20px rgba(0,0,0,0.3);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Form inputs (public) ────────────────────────────────────────────────────── */
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #0E1B2C;
+  margin-bottom: 0.375rem;
+}
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  color: #0E1B2C;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  appearance: none;
+}
+.form-input:focus {
+  border-color: #C4763A;
+  box-shadow: 0 0 0 3px rgba(196, 118, 58, 0.12);
+}
+.form-input::placeholder { color: #9ca3af; }
+select.form-input { cursor: pointer; }
+
+/* ── Admin form inputs ────────────────────────────────────────────────────────── */
+.admin-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  margin-bottom: 0.375rem;
+}
+.admin-input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.875rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  color: #0E1B2C;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  appearance: none;
+}
+.admin-input:focus {
+  border-color: #C4763A;
+  box-shadow: 0 0 0 3px rgba(196, 118, 58, 0.1);
+}
+.admin-input::placeholder { color: #9ca3af; }
+select.admin-input { cursor: pointer; }
+
+/* ── Lightbox ─────────────────────────────────────────────────────────────────── */
+#lightbox.flex { display: flex !important; }
+
+/* ── Gallery masonry ─────────────────────────────────────────────────────────── */
+.gallery-item img {
+  display: block;
+  width: 100%;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* ── Flash messages ──────────────────────────────────────────────────────────── */
+.flash-msg { animation: fadeInUp 0.4s ease; }
+
+/* ── Smooth scrolling ────────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ── Print ─────────────────────────────────────────────────────────────────────  */
+@media print {
+  #vk-loader, #site-header, footer { display: none !important; }
+  body { background: white !important; }
+}

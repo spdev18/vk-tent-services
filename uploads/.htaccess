@@ -1,0 +1,6 @@
+# Block direct PHP execution in uploads directory
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phar|cgi|pl|py|sh)$">
+  Order Deny,Allow
+  Deny from All
+</FilesMatch>
+Options -Indexes
